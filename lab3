@@ -1,0 +1,45 @@
+def coil_of_ones(x):
+    if x == 1:
+        return [[1]]
+    else:
+        arr = [[0] * x for _ in range(x)]
+        if x % 4 == 2:
+            for a in range(x):
+                arr[a][-1] = 1
+        if x % 4 == 3:
+            for a in range(x):
+                arr[-1][a] = 1
+        if x % 4 == 0:
+            for a in range(x):
+                arr[a][0] = 1
+        if x % 4 == 1:
+            for a in range(x):
+                arr[0][a] = 1
+
+        inner_arr = coil_of_ones(x - 1)
+        
+        if x % 4 == 2:
+            for a in range(x - 1):
+                for b in range(x - 1):
+                    arr[a][b] = inner_arr[a][b]
+        if x % 4 == 3:
+            for a in range(x - 1):
+                for b in range(x - 1):
+                    arr[a][b+1] = inner_arr[a][b]
+        if x % 4 == 0:
+            for a in range(x - 1):
+                for b in range(x - 1):
+                    arr[a+1][b+1] = inner_arr[a][b]
+        if x % 4 == 1:
+            for a in range(x - 1):
+                for b in range(x - 1):
+                    arr[a+1][b] = inner_arr[a][b]
+
+        return arr
+
+for x in range(1, 6):
+    print("x =", x)
+    arr = coil_of_ones(x)
+    
+    for a in range(len(arr)):
+        print(arr[a])

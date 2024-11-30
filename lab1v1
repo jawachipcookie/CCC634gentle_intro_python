@@ -1,0 +1,64 @@
+import numpy as np
+
+# Method 1: Using modulo operation
+def alt_pattern1(n):
+    return 1 - (np.arange(n) % 2)
+    # np.arange(n) creates: [0,1,2,3,4...]
+    # % 2 gives:           [0,1,0,1,0...]
+    # 1 - (...) gives:     [1,0,1,0,1...]
+
+# Method 2: Using alternating boolean mask
+def alt_pattern2(n):
+    return np.arange(n) % 2 == 0
+    # Returns True for even indices, False for odd indices
+    # Automatically converts to 1s and 0s
+
+# Method 3: Using sine wave
+def alt_pattern3(n):
+    return (np.cos(np.arange(n) * np.pi) + 1) / 2
+    # Creates a cosine wave [1,0,1,0...]
+
+# Method 4: Using tile
+def alt_pattern4(n):
+    return np.tile([1, 0], (n + 1) // 2)[:n]
+    # Directly repeats [1,0] pattern and cuts to length n
+
+# Let's test all methods
+n = 8
+print("\nTest with n =", n)
+print("Method 1:", alt_pattern1(n))  # [1 0 1 0 1 0 1 0]
+print("Method 2:", alt_pattern2(n))  # [1 0 1 0 1 0 1 0]
+print("Method 3:", alt_pattern3(n))  # [1 0 1 0 1 0 1 0]
+print("Method 4:", alt_pattern4(n))  # [1 0 1 0 1 0 1 0]
+
+# Let's also create a 2D version using reshape
+def alt_pattern_2d(n):
+    pattern = 1 - (np.arange(n*n) % 2)
+    return pattern.reshape(n, n)
+
+print("\n2D pattern for n = 3:")
+print(alt_pattern_2d(3))
+# [[1 0 1]
+#  [0 1 0]
+#  [1 0 1]]
+
+# Let's see different lengths
+print("\nPatterns of different lengths:")
+for n in range(1, 6):
+    print(f"n={n}:", alt_pattern1(n))
+
+# Advanced pattern: Creating alternating groups
+def group_pattern(n, group_size):
+    """Creates pattern with alternating groups of 1s and 0s"""
+    return 1 - ((np.arange(n) // group_size) % 2)
+
+print("\nGroup patterns (group_size=2):")
+print(group_pattern(10, 2))  # [1 1 0 0 1 1 0 0 1 1]
+
+# Creating custom alternating patterns
+def custom_pattern(n, values):
+    """Creates pattern alternating between custom values"""
+    return np.tile(values, (n + len(values) - 1) // len(values))[:n]
+
+print("\nCustom alternating pattern:")
+print(custom_pattern(10, [1, 0, 2]))  # [1 0 2 1 0 2 1 0 2 1]
